@@ -21,7 +21,7 @@ exec('cd Desktop', function(err){
 var cmd =require('node-cmd');
 
 cmd.run('cd "Desktop/soa proje"');
-cmd.run('node service.js')
-console.log("runing")
+cmd.run('node list.js')
+console.log("list service -  http://127.0.0.1:8001/wsdl?wsdl is runing")
 cmd.run('node add.js')
-console.log("running")
+console.log("add service  -  http://127.0.0.1:8000/wsdl?wsdl is running")

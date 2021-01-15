@@ -21,6 +21,24 @@ var qr = "select * from userc"
     }
 })
     
+async function dbAct(){
+    try{
+        var qr = "select * from userc"
+            con.query(qr, function(err,res){
+            for(var i=0; i<res.length;i++){
+                userDatas.push(res[i])
+            }
+            console.log(userDatas);
+        })
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+dbAct();
+console.log(userDatas);
+
 function vericek_func(){
 
     console.log("vericek");
@@ -47,7 +65,7 @@ var serviceObject = {
       }
 };
 
-var xml = fs.readFileSync('wsdlservice.wsdl', 'utf8');
+var xml = fs.readFileSync('list.wsdl', 'utf8');
 var app = express();
 
 app.get('/', function (req, res) {
