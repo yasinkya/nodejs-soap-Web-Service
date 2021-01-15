@@ -11,7 +11,8 @@ var con = mysql.createConnection({
     database:'ptod'
 });
 
-var userDatas=[];
+var userDatas=await dbAct();
+
 var qr = "select * from userc"
     con.query(qr, function(err,res){
     if(err)
@@ -36,7 +37,7 @@ async function dbAct(){
     }
 }
 
-dbAct();
+
 console.log(userDatas);
 
 function vericek_func(){
