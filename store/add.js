@@ -1,24 +1,29 @@
 'use strict'
+
 var soap= require('soap');
 var fs = require('fs');
-const express = require('express')
-const bodyParser = require('body-parser')
-const store = require('./insert')
-const database = require('./databaseCon')
-const app = express()
-app.use(express.static('public'))
-app.use(bodyParser.json())
+const express = require('express');
+const bodyParser = require('body-parser');
+const store = require('./insert');
+const database = require('./databaseCon');
+const app = express();
+var xml = fs.readFileSync('add.wsdl', 'utf8');
+app.use(express.static('public'));
+app.use(bodyParser.json());
 
 
+// ****************************************** Post *******************************************
 app.post('/createUser', (req, res) => {
   store
     .createUser({
       username: req.body.username,
       pass: req.body.pass
     })
-    .then(() => res.sendStatus(200))
-})
-// **************************************** GET *********************************************
+    .then(() => res.sendStatus(200));
+});
+
+
+// **************************************** GET listUser *********************************************
 app.get('/listUser', function (req, res) {
   var qr = "select * from userc"
   var result=[];
@@ -27,29 +32,9 @@ app.get('/listUser', function (req, res) {
       for(var i=0;i< data.length;i++){
         result.push(data[i]);
       }
-      res.end(JSON.stringify(result))
-    })
-    
-  
-  /*   editing
-  var result=[];
-  var qr = "select * from userc"
-  var con = require('knex') (require('./dbKnex'))
-  
-  console.log(req.url);
-  con.query(qr, function(req,data){
-      for(var i=0;i< data.length;i++){
-          result.push(data[i]);
-      }
-      result = JSON.stringify(result);
-      
-      var users= JSON.parse( result);
-      console.log( users);
-      res.end( JSON.stringify(users));
-  })
-  */
-})
-
+      res.end(JSON.stringify(result));
+    });
+});
 
 
 // *********************************SERVİCE FUNC ****************************************** 
@@ -67,8 +52,7 @@ function veriekle_func(args){
   }
 }
 
-// ************************ SERVİCE ********************************************************
-
+// ************************ CALL SERVİCE ********************************************************
 var serviceObject = {
   VeriEkleService: {
       VeriEkleServiceSoapPort: {
@@ -81,23 +65,13 @@ var serviceObject = {
 };
 
 
-// ***************************************** Express **********************************************
-//var app = express();
-var xml = fs.readFileSync('add.wsdl', 'utf8');
-
-
-
 // ********************************** LISTEN ****************************************************
-/*
-app.listen(8081, () => {
-  console.log('Server running on http://localhost:8081')
-})
-*/
 var port = 8001;
 app.listen(port,  () =>{
+  console.log("\n*******************************************************************************")
   console.log('Listening on port ' + port);
   var wsdl_path = "/wsdl";
   soap.listen(app, wsdl_path, serviceObject, xml);
-  console.log("Check http://localhost:" + port + wsdl_path +"?wsdl to see if the service is working");
-  console.log('Server running on http://localhost:8081')
+  console.log('Server running on (GET,POST)  -> http://localhost:8001')
+  console.log("Check WSDL to see if the service is working  -> http://localhost:" + port + wsdl_path +"?wsdl");
 });
