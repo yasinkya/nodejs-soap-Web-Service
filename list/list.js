@@ -20,12 +20,11 @@ app.get('/listUser', function (req, res) {
             })
 })
 
-
-function vericek_func(){
+async function vericek_func(){
 
     console.log("\nVeri Çekiliyor..");
     var userDatas=[];
-    var result;
+    let result;
 
     await getdata
             .listTable()
@@ -38,16 +37,14 @@ function vericek_func(){
                 })
                 .catch((err) => { 
                     console.log( err); throw err })
-                .finally(() => {
-                    console.log("in finalyy")
-                    console.log(result)
-                    return{
-                        result:result
-                    }
-                    getdata.destroy();
-                    console.log(userDatas)
-                });
-      
+
+    console.log("out finalyy")
+    
+    result=result.substring(1,result.length-1);
+    console.log(result)
+     return{
+        result:result
+    }
 }
 
 
