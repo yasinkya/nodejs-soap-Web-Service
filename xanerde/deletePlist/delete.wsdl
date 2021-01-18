@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <definitions> must be the root of the WSDL document -->
+<wsdl:definitions targetNamespace="http://tempuri.org/" 
+  xmlns:s="http://www.w3.org/2001/XMLSchema" 
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+  xmlns:tns="http://tempuri.org/" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" 
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <!-- WSDL TYPES: definition of the data types that are used in the web service -->
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="DeleteRequest">
+        <s:complexType>
+          <s:sequence>
+            <!-- args - PackingListID -->
+            <s:element minOccurs="0" maxOccurs="1" name="PackingListID" type="s:int"/>
+          </s:sequence>
+        </s:complexType>
+      
+      </s:element>
+      <s:element name="DeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+
+  <!-- MESSAGES: defines the data being exchanged between the service and client -->
+  <!-- ********************************************************************************* -->
+  <wsdl:message name="DeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteRequest"/>
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteResponse"/>
+  </wsdl:message>
+
+  <!-- PORT TYPES: defines the complete communication operation (one way/round trip) -->
+<!-- ************************************************************************************************* -->
+  <wsdl:portType name="DeleteSoapPort">
+    <!-- The operation name must be the same as the one specified in the service object -->
+    <wsdl:operation name="Delete">
+      <wsdl:input message="tns:DeleteSoapIn"/>
+      <wsdl:output message="tns:DeleteSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+
+  <!-- BINDING: provides details on how a portType operation will actually be transmitted -->
+  <!-- ************************************************************************************************* -->
+  <wsdl:binding name="DeleteServiceSoapBinding" type="tns:DeleteSoapPort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="Delete" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:binding name="DeleteServiceSoap12Binding" type="tns:DeleteSoapPort">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Delete">
+      <soap12:operation soapAction="Delete" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+
+  <!-- SERVICE:  -->
+  <wsdl:service name="DeleteService">
+    <wsdl:port name="DeleteSoapPort" binding="tns:DeleteServiceSoapBinding">
+      <soap:address location="http://localhost:8002/wsdl"/>
+    </wsdl:port>
+    <wsdl:port name="DeleteSoap12Port" binding="tns:DeleteServiceSoap12Binding">
+      <soap12:address location="http://localhost:8002/wsdl"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

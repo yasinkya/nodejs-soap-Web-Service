@@ -2,7 +2,7 @@ const knex = require('knex')(require('./dbKnex'))
 
 module.exports = {
   updateCol(packingName,packingDesc,packingPrice,packingId){
-    console.log("Listing Table With Procedure");
+    console.log("Updating Column With Procedure");
     return knex.raw("call sp_Update('"+packingName+"','"+packingDesc+"','"+packingPrice+"',"+packingId+");")
   }
 }
